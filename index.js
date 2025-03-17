@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config(); // Carga las variables de entorno
 import express from 'express'; //Importar el módulo express
+import cors from 'cors';
 const app = express(); //Crea una instancia de la aplicación express
 import connectDB from './config/db.js'; // Importa la función connectDB desde la carpeta config
 const PORT = process.env.PORT || 3000; // Define el puerto donde correra la aplicación
@@ -9,6 +10,7 @@ const PORT = process.env.PORT || 3000; // Define el puerto donde correra la apli
 connectDB(); // Lama a la función para conectarse a la base de datos
 
 // Middleware para parsear JSON
+app.use(cors());
 app.use(express.json());
 
 // Importar las rutas
