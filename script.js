@@ -27,6 +27,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 const productElement = document.createElement('li');
                 productElement.textContent = `${product.name} - ${product.price} - Cantidad ${product.quantity} - Descripción: ${product.description}`;
                 inventoryList.appendChild(productElement); // Añade el producto a la lista
+
+                const editProductBtn = document.createElement('button');
+                editProductBtn.textContent = 'Editar';
+                editProductBtn.classList.add('edit-product');
+                const deleteProductBtn = document.createElement('button');
+                deleteProductBtn.textContent = 'Eliminar';
+                deleteProductBtn.classList.add('delete-product');
+
+                productElement.appendChild(editProductBtn);
+                productElement.appendChild(deleteProductBtn);
             });
         } catch (error) {
             console.log('Error al obtener los productos', error); // Maneja los errores de la solicitud
@@ -68,4 +78,12 @@ document.addEventListener('DOMContentLoaded', () => {
     addProductForm.addEventListener('submit', addProduct);
 
     fetchProducts();
+
+    //Función para actualiza (editar) producto
+
+    async function addProduct(event, productId) {
+        event.preventDefault();
+
+        const products =
+    }
 });
