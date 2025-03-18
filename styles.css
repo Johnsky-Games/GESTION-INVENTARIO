@@ -1,3 +1,68 @@
+/* Botones de editar y eliminar con tooltip */
+.edit-product,
+.delete-product {
+    position: relative; /* Posición relativa para ubicar el tooltip */
+    display: inline-block;
+}
+
+/* Estilo base para el tooltip */
+.edit-product::after,
+.delete-product::after {
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.75);
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 1;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+        opacity 0.3s ease,
+        visibility 0.3s;
+}
+
+/* Contenido específico para cada tooltip */
+.edit-product::after {
+    content: "Editar Producto";
+}
+
+.delete-product::after {
+    content: "Eliminar Producto";
+}
+
+/* Estilo base para la flecha del tooltip */
+.edit-product::before,
+.delete-product::before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-bottom-color: rgba(0, 0, 0, 0.75);
+    z-index: 1;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+        opacity 0.3s ease,
+        visibility 0.3s;
+}
+
+/* Mostrar tooltip y flecha al hacer hover */
+.edit-product:hover::after,
+.edit-product:hover::before,
+.delete-product:hover::after,
+.delete-product:hover::before {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Resto de estilos de la página */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
@@ -7,7 +72,6 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    height: 100vh;
 }
 
 header {
@@ -16,6 +80,12 @@ header {
     padding: 10px 0;
     text-align: center;
     width: 100%;
+    display: block;
+    border-radius: 5px 5px 0 0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    z-index: 1;
 }
 
 main {
@@ -24,8 +94,11 @@ main {
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     width: 80%;
-    max-width: 800px;
+    max-width: 900px;
     margin-top: 20px;
+    overflow-x: auto;
+    top: 80px;
+    position: relative;
 }
 
 h1,
@@ -44,12 +117,16 @@ input[type="number"] {
     margin: 5px 0;
     border: 1px solid #ccc;
     border-radius: 3px;
-    transition: border-color 0.3s ease-in-out;
+    transition:
+        border-color 0.3s ease-in-out,
+        box-shadow 0.3s ease-in-out;
+}
 
-    &:focus {
-        outline: none;
-        border-color: #4caf;
-    }
+input[type="text"]:focus,
+input[type="number"]:focus {
+    outline: none;
+    border-color: #4caf;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
 }
 
 button {
@@ -59,27 +136,181 @@ button {
     padding: 10px;
     cursor: pointer;
     border-radius: 3px;
-    transition: background-color 0.3s ease-in-out;
-
-    &:hover {
-        background-color: rgb(51, 189, 154);
-    }
+    transition:
+        background-color 0.3s ease-in-out,
+        transform 0.2s ease-in-out;
 }
 
-#inventory {
-    list-style: none;
-    padding: 0;
+button:hover {
+    background-color: rgb(51, 189, 154);
+    transform: scale(1.05);
 }
 
-#inventory li {
+#add-product,
+.update-product {
+    margin-top: 20px;
+}
+
+.edit-product {
+    background-color: rgb(15, 219, 114);
+    color: #fff;
+    border: none;
     padding: 10px;
-    border: 1px solid #ddd;
+    cursor: pointer;
     border-radius: 3px;
-    margin-bottom: 5px;
+    transition:
+        background-color 0.3s ease-in-out,
+        transform 0.2s ease-in-out;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.edit-product:hover {
+    background-color: rgb(12, 174, 90);
+    transform: scale(1.05);
+}
+
+.delete-product {
+    background-color: rgb(254, 97, 97);
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 3px;
+    width: 100%;
+    transition:
+        background-color 0.3s ease-in-out,
+        transform 0.2s ease-in-out;
+}
+
+.delete-product:hover {
+    background-color: rgb(212, 38, 38);
+    transform: scale(1.05);
+}
+
+i {
+    font-size: 20px;
 }
 
 footer {
     text-align: center;
     margin-top: 20px;
     color: #777;
+}
+
+.no-list {
+    text-align: center;
+    color: #777;
+    margin-top: 20px;
+    font-size: 1.2rem;
+}
+
+table {
+    border-collapse: collapse;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    font-family: sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    border-radius: 5px;
+}
+
+thead,
+tfoot {
+    background-color: #4caf;
+}
+
+th,
+td {
+    border: 1px solid rgb(160, 160, 160);
+    padding: 8px 10px;
+}
+
+td:last-of-type {
+    text-align: center;
+}
+
+tbody > tr:nth-of-type(even) {
+    background-color: rgb(240, 240, 240);
+}
+
+tfoot th {
+    text-align: right;
+}
+
+tfoot td {
+    font-weight: bold;
+}
+
+/* Desplazamiento suave */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Estilo para enlaces */
+a {
+    color: #4caf;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+}
+
+a:hover {
+    color: rgb(51, 189, 154);
+}
+
+/* Media queries para diseño responsivo */
+@media (max-width: 768px) {
+    main {
+        width: 95%;
+        margin-top: 60px;
+        padding: 15px;
+    }
+
+    header {
+        padding: 15px 0;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+        width: calc(100% - 20px);
+    }
+
+    button {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .edit-product,
+    .delete-product {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    table {
+        font-size: 0.7rem;
+    }
+
+    th,
+    td {
+        padding: 6px 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        font-size: 1.2rem;
+    }
+
+    h1,
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    table {
+        font-size: 0.6rem;
+    }
+
+    th,
+    td {
+        padding: 4px 6px;
+    }
 }
